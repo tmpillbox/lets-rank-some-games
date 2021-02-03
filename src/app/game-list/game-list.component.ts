@@ -18,7 +18,6 @@ export class GameListComponent implements OnInit {
   ngOnInit() {}
 
   drop(event: any): void {
-    console.log(event);
     moveItemInArray(this.games, event.previousIndex, event.currentIndex);
   }
 }
