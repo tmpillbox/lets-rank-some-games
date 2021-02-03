@@ -9,6 +9,8 @@ import { HelloComponent } from "./hello.component";
 import { TopBarComponent } from "./top-bar/top-bar.component";
 import { GameListComponent } from "./game-list/game-list.component";
 import { GameExportComponent } from "./game-export/game-export.component";
+import { ToolBarComponent } from "./tool-bar/tool-bar.component";
+import { RankedGamesService } from "./ranked-games.service";
 
 @NgModule({
   imports: [
@@ -25,8 +27,10 @@ import { GameExportComponent } from "./game-export/game-export.component";
     TopBarComponent,
     HelloComponent,
     GameListComponent,
-    GameExportComponent
+    GameExportComponent,
+    ToolBarComponent
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [RankedGamesService]
 })
 export class AppModule {}

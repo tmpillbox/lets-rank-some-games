@@ -1,10 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem
 } from "@angular/cdk/drag-drop";
-import { games } from "../games";
+
+import { Game } from "../game";
+import { RankedGamesService } from "../ranked-games.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-game-list",
@@ -12,12 +16,33 @@ import { games } from "../games";
   styleUrls: ["./game-list.component.css"]
 })
 export class GameListComponent implements OnInit {
-  games = games;
-  constructor() {}
+  sorted = [];
+  unsorted = [];
+  constructor(private rankedGames: RankedGamesService) {
+    rankedGames.updateRanks$.subscribe(ranksData => {
+      this.sorted = ranksData;
+    });
+    rankedGames.updateUnsorted$.subscribe(unsortedData => {
+      this.unsorted = unsortedData;
+    });
+  }
 
   ngOnInit() {}
 
   drop(event: any): void {
-    moveItemInArray(this.games, event.previousIndex, event.currentIndex);
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
   }
 }

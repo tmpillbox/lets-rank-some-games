@@ -1,8 +1,33 @@
-<div cdkDropList class="game-list" (cdkDropListDropped)="drop($event)">
-  <div class="game-entry" *ngFor="let game of games; index as i" cdkDrag>
+<div
+  cdkDropList
+  #sortedList="cdkDropList"
+  [cdkDropListData]="sorted"
+  [cdkDropListConnectedTo]="[unsortedList]"
+  class="game-list"
+  (cdkDropListDropped)="drop($event)"
+>
+  <div class="game-entry" *ngFor="let game of sorted; index as i" cdkDrag>
     <span flex>
       <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
       <div class="game-rank">{{ i + 1 }}</div>
+      <div class="game-name">{{ game.name }}</div>
+    </span>
+  </div>
+</div>
+
+<h1>Unsorted</h1>
+<div
+  cdkDropList
+  #unsortedList="cdkDropList"
+  [cdkDropListData]="unsorted"
+  [cdkDropListConnectedTo]="[sortedList]"
+  class="unsorted-list"
+  (cdkDropListDropped)="drop($event)"
+>
+  <div class="game-entry" *ngFor="let game of unsorted" cdkDrag>
+    <span flex>
+      <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
+      <div class="game-rank-spacer"></div>
       <div class="game-name">{{ game.name }}</div>
     </span>
   </div>

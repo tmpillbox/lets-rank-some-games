@@ -1,5 +1,6 @@
 import { Component, VERSION } from "@angular/core";
 import { Router } from "@angular/router";
+import { RankedGamesService } from "./ranked-games.service";
 
 @Component({
   selector: "app-root",
@@ -8,4 +9,6 @@ import { Router } from "@angular/router";
 })
 export class AppComponent {
   name = "TTFL";
+
+  constructor(private rankedGames: RankedGamesService) {}
 }
