@@ -1,0 +1,9 @@
+<div cdkDropList class="game-list" (cdkDropListDropped)="drop($event)">
+  <div class="game-entry" *ngFor="let game of games; index as i" cdkDrag>
+    <span flex>
+      <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
+      <div class="game-rank">{{ i + 1 }}</div>
+      <div class="game-name">{{ game.name }}</div>
+    </span>
+  </div>
+</div>
