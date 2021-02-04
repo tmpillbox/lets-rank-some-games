@@ -11,7 +11,12 @@
 
 <h1>Unsorted</h1>
 <div class="formContainer">
-<div class="game-entry"><input>
+	<form>
+		<input type="text" placeholder="Search BGG..." matInput [formControl]="searchTerm" [matAutocomplete]="auto">
+		<mat-autocomplete #auto="matAutocomplete">
+			<mat-option *ngFor="let result of searchResults" [value]="result.name"> {{ result.name }} </mat-option>
+		</mat-autocomplete>
+	</form>
 </div>
 <div cdkDropList #unsortedList="cdkDropList" [cdkDropListData]="unsorted" [cdkDropListConnectedTo]="[sortedList]"
 	class="unsorted-list" (cdkDropListDropped)="drop($event)">

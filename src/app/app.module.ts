@@ -3,6 +3,10 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { HttpClientModule } from "@angular/common/http";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatInputModule } from "@angular/material/input";
+//import { MatAutocompleteModule, MatInputModule } from "@angular/material";
 
 import { AppComponent } from "./app.component";
 import { HelloComponent } from "./hello.component";
@@ -20,7 +24,10 @@ import { RankedGamesService } from "./ranked-games.service";
       { path: "", component: GameListComponent },
       { path: "export", component: GameExportComponent }
     ]),
-    DragDropModule
+    DragDropModule,
+    HttpClientModule,
+    MatAutocompleteModule,
+    MatInputModule
   ],
   declarations: [
     AppComponent,
