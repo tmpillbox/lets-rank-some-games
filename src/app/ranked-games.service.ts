@@ -26,6 +26,33 @@ export class RankedGamesService {
     this.updateUnsortedSource.next(this.unsorted);
   }
 
+  addUnsorted(games) {
+    const tmp = JSON.parse(JSON.stringify(this.unsorted));
+    games.forEach(game => {
+      if (!this.inList(game.id)) {
+        tmp.push(game);
+      }
+    });
+    this.setUnsorted(tmp);
+  }
+
+  inRanked(gameid) {
+    return this.games.some(game => {
+      return game.id == gameid;
+    });
+  }
+
+  inUnsorted(gameid) {
+    console.log("scanning unsorted list for game id: " + gameid);
+    return this.unsorted.some(game => {
+      return game.id == gameid;
+    });
+  }
+
+  inList(gameid) {
+    return this.inRanked(gameid) || this.inUnsorted(gameid);
+  }
+
   getItems() {
     return this.games;
   }
@@ -40,7 +67,7 @@ export class RankedGamesService {
   }
 
   loadSampleData() {
-    console.log("loaded Sample Data");
-    this.setUnsorted(sample_games);
+    const tmp = JSON.parse(JSON.stringify(sample_games));
+    this.addUnsorted(tmp);
   }
 }

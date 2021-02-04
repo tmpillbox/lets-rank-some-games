@@ -5,10 +5,15 @@ import {
   moveItemInArray,
   transferArrayItem
 } from "@angular/cdk/drag-drop";
+import { HttpClient } from "@angular/common/http";
+import { FormControl } from "@angular/forms";
 
 import { Game } from "../game";
 import { RankedGamesService } from "../ranked-games.service";
 import { Subscription } from "rxjs";
+import { debounceTime } from "rxjs/internal/operators/debounceTime";
+
+
 
 @Component({
   selector: "app-game-list",
@@ -44,5 +49,16 @@ export class GameListComponent implements OnInit {
         event.currentIndex
       );
     }
+    this.updateServiceData();
+  }
+
+  updateServiceData() {
+    this.rankedGames.setRanks(this.sorted);
+    this.rankedGames.setUnsorted(this.unsorted);
+  }
+
+  removeGame(gameid) {
+    const tmp = this.unsorted.filter(game => game.id !== gameid);
+    this.rankedGames.setUnsorted(tmp);
   }
 }
