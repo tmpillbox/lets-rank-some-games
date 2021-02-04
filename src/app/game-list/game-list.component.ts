@@ -11,7 +11,8 @@ import { FormControl } from "@angular/forms";
 import { Game } from "../game";
 import { RankedGamesService } from "../ranked-games.service";
 import { Subscription } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { map, catchError } from "rxjs/operators";
 import { debounceTime } from "rxjs/internal/operators/debounceTime";
 import * as xml2js from "xml2js";
 
@@ -20,7 +21,7 @@ export class BGGAPISearchService {
   constructor(private http: HttpClient) {}
   parser = new xml2js.Parser({ strict: false, trim: true });
   search(term) {
-    var listOfGames = this.http
+    var listOfGamesObj = this.http
       .get(
         "https://boardgamegeek.com/xmlapi2/search?type=boardgame&query=" + term,
         {
@@ -29,15 +30,32 @@ export class BGGAPISearchService {
       )
       .pipe(
         debounceTime(500), // WAIT FOR 500 MILLISECONDS AFTER EACH KEY STROKE.
-        map((data: any) => {
-          var tmp2: string;
-          this.parser.parseString(data.text, (err, result) => (tmp2 = result));
-          console.log("tmp2: " + tmp2);
-          return data.length != 0 ? JSON.parse(tmp2) : [{ name: "not found" }];
+        map(data => {
+          var tmp;
+          this.parser.parseString(data, (err, result) => {
+            tmp = result["ITEMS"]["ITEM"].map(function(itemHandle) {
+              return {
+                id: itemHandle["$"]["ID"],
+                name: itemHandle["NAME"][0]["$"]["VALUE"],
+                year: itemHandle["YEARPUBLISHED"][0]["$"]["VALUE"]
+              };
+            });
+          });
+          console.log("tmp: " + tmp);
+          return tmp;
         })
       );
-    console.log("search results: " + JSON.stringify(listOfGames));
-    return listOfGames;
+    console.log("ITEMS: " + JSON.stringify(listOfGamesObj));
+    //const listOfGames = listOfGamesObj.map(function(itemHandle) {
+    //  return {
+    //    id: itemHandle["$"]["ID"],
+    //    name: itemHandle["NAME"][0]["$"]["VALUE"],
+    //    year: itemHandle["YEARPUBLISHED"][0]["$"]["VALUE"]
+    //  };
+    //});
+    //const listOfGames = listOfGamesObj;
+    //console.log("search results: " + JSON.stringify(listOfGames));
+    return listOfGamesObj;
   }
 }
 
@@ -53,6 +71,8 @@ export class GameListComponent implements OnInit {
 
   searchTerm: FormControl = new FormControl();
   searchResults = <any>[];
+
+  searchBGG: string;
 
   constructor(
     private rankedGames: RankedGamesService,
@@ -102,5 +122,10 @@ export class GameListComponent implements OnInit {
   removeGame(gameid) {
     const tmp = this.unsorted.filter(game => game.id !== gameid);
     this.rankedGames.setUnsorted(tmp);
+  }
+
+  addUnsortedByID(gameid, gamename) {
+    this.rankedGames.addUnsorted([{ id: gameid, name: gamename }]);
+    this.searchBGG = "";
   }
 }
