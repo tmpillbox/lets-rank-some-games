@@ -1,7 +1,7 @@
 <a [routerLink]="['/']">
-  <h1>Let's Rank Some Games</h1>
+	<h1>Let's Rank Some Games</h1>
 </a>
 
-<a class="button fancy-button">
+<button class="button fancy-button" (click)="exportCSV()">
   <i class="material-icons">ios_share</i>Export to CSV
-</a>
+</button>

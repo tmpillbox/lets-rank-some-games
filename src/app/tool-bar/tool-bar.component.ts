@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 import { RankedGamesService } from "../ranked-games.service";
 
 @Component({
@@ -14,5 +14,13 @@ export class ToolBarComponent implements OnInit {
   loadSampleData() {
     console.log("toolbar loadSampleData");
     this.rankedGames.loadSampleData();
+  }
+
+  saveToLocal() {
+    this.rankedGames.saveToLocal();
+  }
+
+  loadFromLocal() {
+    this.rankedGames.loadFromLocal();
   }
 }

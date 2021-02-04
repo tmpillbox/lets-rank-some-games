@@ -70,4 +70,22 @@ export class RankedGamesService {
     const tmp = JSON.parse(JSON.stringify(sample_games));
     this.addUnsorted(tmp);
   }
+
+  saveToLocal() {
+    localStorage.setItem("SaveRankedGames", JSON.stringify(this.games));
+    localStorage.setItem("SaveUnrankedGames", JSON.stringify(this.unsorted));
+  }
+
+  loadFromLocal() {
+    this.setRanks(JSON.parse(localStorage.getItem("SaveRankedGames")));
+    this.setUnsorted(JSON.parse(localStorage.getItem("SaveUnrankedGames")));
+  }
+
+  exportCSV(): string {
+    const csvString = [
+      ["Rank", "ID", "Name"],
+      ...this.games.map((item, idx) => [idx + 1, item.id, item.name])
+    ];
+    return csvString.map(e => e.join(",")).join("\n");
+  }
 }
