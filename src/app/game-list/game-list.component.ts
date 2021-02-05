@@ -66,9 +66,58 @@ export class BGGAPISearchService {
           });
           return typeof tmp === "undefined" ? [] : tmp;
         }),
-        map(x => x.slice(0, 20))
+        map(x => x.slice(0, 200))
       );
     return listOfGamesObj;
+  }
+}
+
+@Injectable({ providedIn: "root" })
+export class BGGAPIGetByIDService {
+  constructor(private http: HttpClient) {}
+  parser = new xml2js.Parser({ strict: false, trim: true });
+  getByID(gameid) {
+    var gameObj = this.http
+      .get("https://boardgamegeek.com/xmlapi2/thing?id=" + gameid, {
+        responseType: "text"
+      })
+      .pipe(
+        debounceTime(500), // WAIT FOR 500 MILLISECONDS AFTER EACH KEY STROKE.
+        map(data => {
+          var tmp;
+          debugger;
+          this.parser.parseString(data, (err, result) => {
+            if (
+              typeof result !== "undefined" &&
+              typeof result["ITEMS"] !== "undefined" &&
+              typeof result["ITEMS"]["ITEM"] !== "undefined"
+            ) {
+              const robj = {
+                id: "-1",
+                name: "",
+                year: "0"
+              };
+              if ("$" in result["ITEMS"] && "ID" in result["$"]) {
+                robj.id = result["$"]["ID"];
+              }
+              if (
+                "NAME" in result &&
+                typeof result["NAME"][0] !== "undefined"
+              ) {
+                robj.name = result["NAME"][0]["$"]["VALUE"];
+              }
+              if (
+                "YEARPUBLISHED" in result &&
+                typeof result["YEARPUBLISHED"][0] !== "undefined"
+              ) {
+                robj.year = result["YEARPUBLISHED"][0]["$"]["VALUE"];
+              }
+              return robj;
+            }
+          });
+        })
+      );
+    return gameObj;
   }
 }
 
@@ -143,4 +192,6 @@ export class GameListComponent implements OnInit {
     this.rankedGames.addUnsorted([{ id: gameid, name: gamename }]);
     this.searchBGG = "";
   }
+
+  addGameByBGGID(gameid) {}
 }
