@@ -2,9 +2,11 @@
 	<h1>Let's Rank Some Games</h1>
 </a>
 
-<a [routerLink]="['/']">
-	<h3>{{ ranked.length }} Games Ranked</h3>
-</a>
+<ng-template [ngIf]="true">
+	<a [routerLink]="['/']">
+		<h3>{{ rankedGamesCount() }} Games Ranked</h3>
+	</a>
+</ng-template>
 
 <div>
 	<a class="button fancy-button" [routerLink]="['/import']">

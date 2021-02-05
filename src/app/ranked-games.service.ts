@@ -1,25 +1,31 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { sample_games } from "./sample-games";
 import { Subject } from "rxjs";
 import { Game } from "./game";
 import { ClipboardService } from "ngx-clipboard";
 
 @Injectable({ providedIn: "root" })
-export class RankedGamesService {
+export class RankedGamesService implements OnInit {
   private updateRanksSource = new Subject<Game[]>();
   private updateUnsortedSource = new Subject<Game[]>();
 
   updateRanks$ = this.updateRanksSource.asObservable();
   updateUnsorted$ = this.updateUnsortedSource.asObservable();
 
-  games = [];
-  unsorted = [];
+  games = [] as Game[];
+  unsorted = [] as Game[];
   rankedGamesCount = 0;
   unrankedGamesCount = 0;
 
-  constructor(private clipboard: ClipboardService) {
-    this.games = JSON.parse(localStorage.getItem("rankedGames"));
-    this.unsorted = JSON.parse(localStorage.getItem("unrankedGames"));
+  constructor(private clipboard: ClipboardService) {}
+
+  ngOnInit() {
+    if (localStorage.getItem("rankedGames") !== null) {
+      this.games = JSON.parse(localStorage.getItem("rankedGames"));
+    }
+    if (localStorage.getItem("unrankedGames") !== null) {
+      this.unsorted = JSON.parse(localStorage.getItem("unrankedGames"));
+    }
   }
 
   setRanks(games) {

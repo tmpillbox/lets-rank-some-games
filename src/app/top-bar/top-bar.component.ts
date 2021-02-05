@@ -10,6 +10,7 @@ import { MatFormField } from "@angular/material/form-field";
 import { FormControl } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { Observable, of } from "rxjs";
+import { Game } from "../game";
 
 export interface DialogData {
   exportCSVData: string;
@@ -20,12 +21,18 @@ export interface DialogData {
   templateUrl: "./top-bar.component.html",
   styleUrls: ["./top-bar.component.css"]
 })
-export class TopBarComponent {
-  ranked = <any>[];
-  constructor(private rankedGames: RankedGamesService) {
-    this.ranked = rankedGames.getItems();
-    rankedGames.updateRanks$.subscribe(ranksData => {
+export class TopBarComponent implements OnInit {
+  public ranked = [] as Game[];
+  constructor(private rankedGames: RankedGamesService) {}
+
+  ngOnInit() {
+    this.ranked = this.rankedGames.getItems();
+    this.rankedGames.updateRanks$.subscribe(ranksData => {
       this.ranked = ranksData;
     });
+  }
+
+  rankedGamesCount() {
+    return this.ranked.length;
   }
 }
