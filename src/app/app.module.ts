@@ -10,6 +10,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { FormsModule } from "@angular/forms";
+import { ClipboardModule } from "ngx-clipboard";
 
 import { AppComponent } from "./app.component";
 import { HelloComponent } from "./hello.component";
@@ -18,7 +19,6 @@ import { GameListComponent } from "./game-list/game-list.component";
 import { GameExportComponent } from "./game-export/game-export.component";
 import { ToolBarComponent } from "./tool-bar/tool-bar.component";
 import { RankedGamesService } from "./ranked-games.service";
-import { ExportCSVDialogComponent } from "./top-bar/top-bar.component";
 
 @NgModule({
   imports: [
@@ -43,8 +43,7 @@ import { ExportCSVDialogComponent } from "./top-bar/top-bar.component";
     HelloComponent,
     GameListComponent,
     GameExportComponent,
-    ToolBarComponent,
-    ExportCSVDialogComponent
+    ToolBarComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],

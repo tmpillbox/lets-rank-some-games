@@ -15,6 +15,7 @@ import { Observable, of } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { debounceTime } from "rxjs/internal/operators/debounceTime";
 import * as xml2js from "xml2js";
+import { hasPropertyNameText } from "@angular/cdk/schematics/update-tool/utils/property-name";
 
 @Injectable({ providedIn: "root" })
 export class BGGAPISearchService {
@@ -33,28 +34,40 @@ export class BGGAPISearchService {
         map(data => {
           var tmp;
           this.parser.parseString(data, (err, result) => {
-            tmp = result["ITEMS"]["ITEM"].map(function(itemHandle) {
-              return {
-                id: itemHandle["$"]["ID"],
-                name: itemHandle["NAME"][0]["$"]["VALUE"],
-                year: itemHandle["YEARPUBLISHED"][0]["$"]["VALUE"]
-              };
-            });
+            if (
+              typeof result !== "undefined" &&
+              typeof result["ITEMS"] !== "undefined" &&
+              typeof result["ITEMS"]["ITEM"] !== "undefined"
+            ) {
+              tmp = result["ITEMS"]["ITEM"].map(function(itemHandle) {
+                const robj = {
+                  id: "-1",
+                  name: "",
+                  year: "0"
+                };
+                if ("$" in itemHandle && "ID" in itemHandle["$"]) {
+                  robj.id = itemHandle["$"]["ID"];
+                }
+                if (
+                  "NAME" in itemHandle &&
+                  typeof itemHandle["NAME"][0] !== "undefined"
+                ) {
+                  robj.name = itemHandle["NAME"][0]["$"]["VALUE"];
+                }
+                if (
+                  "YEARPUBLISHED" in itemHandle &&
+                  typeof itemHandle["YEARPUBLISHED"][0] !== "undefined"
+                ) {
+                  robj.year = itemHandle["YEARPUBLISHED"][0]["$"]["VALUE"];
+                }
+                return robj;
+              });
+            }
           });
-          console.log("tmp: " + tmp);
-          return tmp;
-        })
+          return typeof tmp === "undefined" ? [] : tmp;
+        }),
+        map(x => x.slice(0, 20))
       );
-    console.log("ITEMS: " + JSON.stringify(listOfGamesObj));
-    //const listOfGames = listOfGamesObj.map(function(itemHandle) {
-    //  return {
-    //    id: itemHandle["$"]["ID"],
-    //    name: itemHandle["NAME"][0]["$"]["VALUE"],
-    //    year: itemHandle["YEARPUBLISHED"][0]["$"]["VALUE"]
-    //  };
-    //});
-    //const listOfGames = listOfGamesObj;
-    //console.log("search results: " + JSON.stringify(listOfGames));
     return listOfGamesObj;
   }
 }
@@ -66,8 +79,8 @@ export class BGGAPISearchService {
   providers: [BGGAPISearchService]
 })
 export class GameListComponent implements OnInit {
-  sorted = [];
-  unsorted = [];
+  sorted: Game[];
+  unsorted: Game[];
 
   searchTerm: FormControl = new FormControl();
   searchResults = <any>[];
@@ -78,6 +91,8 @@ export class GameListComponent implements OnInit {
     private rankedGames: RankedGamesService,
     private searchService: BGGAPISearchService
   ) {
+    this.sorted = this.rankedGames.getItems();
+    this.unsorted = this.rankedGames.getUnsorted();
     rankedGames.updateRanks$.subscribe(ranksData => {
       this.sorted = ranksData;
     });

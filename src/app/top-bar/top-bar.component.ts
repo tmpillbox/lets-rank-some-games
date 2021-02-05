@@ -20,36 +20,12 @@ export interface DialogData {
   providers: [RankedGamesService]
 })
 export class TopBarComponent {
-  constructor(
-    public dialog: MatDialog,
-    private rankedGames: RankedGamesService
-  ) {}
-  exportCSV(): void {
-    const dialogRef = this.dialog.open(ExportCSVDialogComponent, {
-      width: "500px",
-      data: { exportCSVData: this.rankedGames.exportCSV() }
+  ranked = <any>[];
+  constructor(private rankedGames: RankedGamesService) {
+    this.ranked = rankedGames.getItems();
+    rankedGames.updateRanks$.subscribe(ranksData => {
+      console.log("number ranked games: " + this.rankedGames.rankedGamesCount);
+      this.ranked = ranksData;
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed");
-    });
-  }
-}
-
-@Component({
-  selector: "export-csv-dialog",
-  templateUrl: "export-csv-dialog.html"
-})
-export class ExportCSVDialogComponent {
-  exportCSVData: string;
-  constructor(
-    public dialogRef: MatDialogRef<ExportCSVDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {
-    this.exportCSVData = data.exportCSVData;
-  }
-
-  clickOK(): void {
-    this.dialogRef.close();
   }
 }

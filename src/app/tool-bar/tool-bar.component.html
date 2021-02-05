@@ -1,12 +1,17 @@
-<a class="tool-button fancy-tool-button">
-	<i class="material-icons">cloud_download</i>Import from BGG
-</a>
-<button class="tool-button fancy-tool-button" (click)="loadSampleData()">
+<div *ngIf="hasRoute('/')" class="tool-bar">
+	<button class="tool-button fancy-tool-button" (click)="loadSampleData()">
   <i class="material-icons">dynamic_feed</i>Load Sample Data
 </button>
-<button class="tool-button fancy-tool-button" (click)="saveToLocal()">
+	<button class="tool-button fancy-tool-button" (click)="saveToLocal()">
   <i class="material-icons">file_upload</i>Save Progress
 </button>
-<button class="tool-button fancy-tool-button" (click)="loadFromLocal()">
+	<button class="tool-button fancy-tool-button" (click)="loadFromLocal()">
   <i class="material-icons">file_download</i>Load Previous
 </button>
+</div>
+
+<div *ngIf="hasRoute('/export')" class="tool-bar">
+	<button class="tool-button fancy-tool-button" (click)="copyToClipboard()">
+  <i class="material-icons">dynamic_feed</i>Copy to Clipboard
+  </button>
+</div>

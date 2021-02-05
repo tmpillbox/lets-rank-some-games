@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { sample_games } from "./sample-games";
 import { Subject } from "rxjs";
 import { Game } from "./game";
+import { ClipboardService } from "ngx-clipboard";
 
 @Injectable({ providedIn: "root" })
 export class RankedGamesService {
@@ -13,16 +14,25 @@ export class RankedGamesService {
 
   games = [];
   unsorted = [];
+  rankedGamesCount = 0;
+  unrankedGamesCount = 0;
 
-  constructor() {}
+  constructor(private clipboard: ClipboardService) {
+    this.games = JSON.parse(localStorage.getItem("rankedGames"));
+    this.unsorted = JSON.parse(localStorage.getItem("unrankedGames"));
+  }
 
   setRanks(games) {
     this.games = games;
+    localStorage.setItem("rankedGames", JSON.stringify(this.games));
+    this.rankedGamesCount = this.games.length;
     this.updateRanksSource.next(this.games);
   }
 
   setUnsorted(games) {
     this.unsorted = games;
+    localStorage.setItem("unrankedGames", JSON.stringify(this.unsorted));
+    this.unrankedGamesCount = this.unsorted.length;
     this.updateUnsortedSource.next(this.unsorted);
   }
 
@@ -87,5 +97,9 @@ export class RankedGamesService {
       ...this.games.map((item, idx) => [idx + 1, item.id, item.name])
     ];
     return csvString.map(e => e.join(",")).join("\n");
+  }
+
+  copyToClipboard() {
+    this.clipboard.copy(this.exportCSV());
   }
 }

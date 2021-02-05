@@ -2,6 +2,15 @@
 	<h1>Let's Rank Some Games</h1>
 </a>
 
-<button class="button fancy-button" (click)="exportCSV()">
-  <i class="material-icons">ios_share</i>Export to CSV
-</button>
+<a [routerLink]="['/']">
+	<h3>{{ ranked.length }} Games Ranked</h3>
+</a>
+
+<div>
+	<a class="button fancy-button" [routerLink]="['/import']">
+		<i class="material-icons">cloud_download</i>Import from BGG
+	</a>
+	<a class="button fancy-button" [routerLink]="['/export']">
+		<i class="material-icons">ios_share</i>Export to CSV
+	</a>
+</div>

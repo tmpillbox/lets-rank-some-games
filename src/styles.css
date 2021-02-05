@@ -74,14 +74,16 @@ label {
 .button,
 button {
   display: inline-flex;
-  align-items: center;
-  padding: 8px 16px;
+  align-items: flex-start;
+  padding: 12px 18px;
   border-radius: 2px;
   font-size: 14px;
   cursor: pointer;
   background-color: #1976d2;
   color: white;
   border: none;
+  margin-inline-end: 10px;
+  display: inline;
 }
 
 .list-button {
@@ -134,7 +136,6 @@ app-tool-bar {
   padding: 12px;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
 }
 
 .tool-button {

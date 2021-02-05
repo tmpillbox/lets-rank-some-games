@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
+import { Router } from "@angular/router";
 import { RankedGamesService } from "../ranked-games.service";
 
 @Component({
@@ -7,12 +8,18 @@ import { RankedGamesService } from "../ranked-games.service";
   styleUrls: ["./tool-bar.component.css"]
 })
 export class ToolBarComponent implements OnInit {
-  constructor(private rankedGames: RankedGamesService) {}
+  constructor(
+    private rankedGames: RankedGamesService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
+  hasRoute(route: string) {
+    return this.router.url === route;
+  }
+
   loadSampleData() {
-    console.log("toolbar loadSampleData");
     this.rankedGames.loadSampleData();
   }
 
@@ -22,5 +29,9 @@ export class ToolBarComponent implements OnInit {
 
   loadFromLocal() {
     this.rankedGames.loadFromLocal();
+  }
+
+  copyToClipboard() {
+    this.rankedGames.copyToClipboard();
   }
 }
