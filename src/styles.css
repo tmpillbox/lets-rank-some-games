@@ -76,7 +76,6 @@ label {
 /* Button */
 .button,
 button {
-  display: inline-flex;
   align-items: flex-start;
   padding: 12px 18px;
   border-radius: 2px;
@@ -86,7 +85,7 @@ button {
   color: white;
   border: none;
   margin-inline-end: 10px;
-  display: inline;
+  display: inline-flex;
 }
 
 .list-button {
@@ -112,10 +111,14 @@ button:disabled {
 .fancy-button {
   background-color: white;
   color: #1976d2;
+  align-items: center;
 }
 
 .fancy-button i.material-icons {
   color: #1976d2;
+}
+
+.fancy-button:hover i.material-icons {
   padding-right: 4px;
 }
 
@@ -156,6 +159,14 @@ app-tool-bar {
 fancy-tool-button {
   background-color: white;
   color: #1976d2;
+}
+
+.nav-text {
+  display: none;
+}
+
+.fancy-button:hover > .nav-text {
+  display: unset;
 }
 
 .fancy-tool-button i.material-icons {

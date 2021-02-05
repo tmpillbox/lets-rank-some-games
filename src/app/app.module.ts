@@ -20,6 +20,7 @@ import { GameExportComponent } from "./game-export/game-export.component";
 import { ToolBarComponent } from "./tool-bar/tool-bar.component";
 import { RankedGamesService } from "./ranked-games.service";
 import { BGGSearchByNameService } from "./bgg-search-by-name.service";
+import { SearchBggNameComponent } from "./search-bgg-name/search-bgg-name.component";
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { BGGSearchByNameService } from "./bgg-search-by-name.service";
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: "", component: GameListComponent },
-      { path: "export", component: GameExportComponent }
+      { path: "export", component: GameExportComponent },
+      { path: "bggbyname", component: SearchBggNameComponent }
     ]),
     DragDropModule,
     HttpClientModule,
@@ -44,7 +46,8 @@ import { BGGSearchByNameService } from "./bgg-search-by-name.service";
     HelloComponent,
     GameListComponent,
     GameExportComponent,
-    ToolBarComponent
+    ToolBarComponent,
+    SearchBggNameComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],

@@ -23,13 +23,19 @@ export interface DialogData {
 })
 export class TopBarComponent implements OnInit {
   public ranked = [] as Game[];
-  constructor(private rankedGames: RankedGamesService) {}
+  constructor(
+    private rankedGames: RankedGamesService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.ranked = this.rankedGames.getItems();
     this.rankedGames.updateRanks$.subscribe(ranksData => {
       this.ranked = ranksData;
     });
+  }
+  hasRoute(route: string) {
+    return this.router.url === route;
   }
 
   rankedGamesCount() {

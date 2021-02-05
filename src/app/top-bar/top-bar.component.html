@@ -10,9 +10,15 @@
 
 <div>
 	<a class="button fancy-button" [routerLink]="['/import']">
-		<i class="material-icons">cloud_download</i>Import from BGG
+		<i class="material-icons">cloud_download</i>
+		<div class="nav-text">Import from BGG User Collection</div>
+	</a>
+	<a class="button fancy-button" [routerLink]="['/bggbyname']">
+		<i class="material-icons">manage_search</i>
+		<div class="nav-text">Search BGG by Name</div>
 	</a>
 	<a class="button fancy-button" [routerLink]="['/export']">
-		<i class="material-icons">ios_share</i>Export to CSV
+		<i class="material-icons">ios_share</i>
+		<div class="nav-text">Export to CSV</div>
 	</a>
 </div>
