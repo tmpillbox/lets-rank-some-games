@@ -17,7 +17,14 @@ export class RankedGamesService implements OnInit {
   rankedGamesCount = 0;
   unrankedGamesCount = 0;
 
-  constructor(private clipboard: ClipboardService) {}
+  constructor(private clipboard: ClipboardService) {
+    if (localStorage.getItem("rankedGames") !== null) {
+      this.games = JSON.parse(localStorage.getItem("rankedGames"));
+    }
+    if (localStorage.getItem("unrankedGames") !== null) {
+      this.unsorted = JSON.parse(localStorage.getItem("unrankedGames"));
+    }
+  }
 
   ngOnInit() {
     if (localStorage.getItem("rankedGames") !== null) {

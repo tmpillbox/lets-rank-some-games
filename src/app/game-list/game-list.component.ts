@@ -16,6 +16,7 @@ import { map, catchError } from "rxjs/operators";
 import { debounceTime } from "rxjs/internal/operators/debounceTime";
 import * as xml2js from "xml2js";
 import { hasPropertyNameText } from "@angular/cdk/schematics/update-tool/utils/property-name";
+import { BGGSearchByNameService } from "../bgg-search-by-name.service";
 
 @Injectable({ providedIn: "root" })
 export class BGGAPISearchService {
@@ -125,7 +126,7 @@ export class BGGAPIGetByIDService {
   selector: "app-game-list",
   templateUrl: "./game-list.component.html",
   styleUrls: ["./game-list.component.css"],
-  providers: [BGGAPISearchService]
+  providers: [BGGSearchByNameService]
 })
 export class GameListComponent implements OnInit {
   sorted: Game[];
@@ -138,7 +139,7 @@ export class GameListComponent implements OnInit {
 
   constructor(
     private rankedGames: RankedGamesService,
-    private searchService: BGGAPISearchService
+    private searchService: BGGSearchByNameService
   ) {
     this.sorted = this.rankedGames.getItems();
     this.unsorted = this.rankedGames.getUnsorted();
@@ -152,7 +153,7 @@ export class GameListComponent implements OnInit {
 
   ngOnInit() {
     this.searchTerm.valueChanges.subscribe(term => {
-      if (term != "") {
+      if (typeof term === "string" && term != "") {
         this.searchService.search(term).subscribe(data => {
           this.searchResults = data as any[];
         });
@@ -194,4 +195,8 @@ export class GameListComponent implements OnInit {
   }
 
   addGameByBGGID(gameid) {}
+
+  renderRankNumber(i) {
+    return i + 1;
+  }
 }

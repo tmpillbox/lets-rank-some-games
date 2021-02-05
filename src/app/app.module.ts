@@ -19,6 +19,7 @@ import { GameListComponent } from "./game-list/game-list.component";
 import { GameExportComponent } from "./game-export/game-export.component";
 import { ToolBarComponent } from "./tool-bar/tool-bar.component";
 import { RankedGamesService } from "./ranked-games.service";
+import { BGGSearchByNameService } from "./bgg-search-by-name.service";
 
 @NgModule({
   imports: [
@@ -47,6 +48,6 @@ import { RankedGamesService } from "./ranked-games.service";
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
-  providers: [RankedGamesService]
+  providers: [RankedGamesService, BGGSearchByNameService]
 })
 export class AppModule {}

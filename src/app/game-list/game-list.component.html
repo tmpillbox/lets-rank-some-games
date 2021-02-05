@@ -1,36 +1,47 @@
-<div cdkDropList #sortedList="cdkDropList" [cdkDropListData]="sorted" [cdkDropListConnectedTo]="[unsortedList]"
-	class="game-list" (cdkDropListDropped)="drop($event)">
-	<div class="game-entry" *ngFor="let game of sorted; index as i" cdkDrag>
-		<span flex>
+<div class="game-list-container">
+	<div>
+		<h1>Sorted</h1>
+		<div cdkDropList #sortedList="cdkDropList" [cdkDropListData]="sorted" [cdkDropListConnectedTo]="[unsortedList]"
+			class="game-list" (cdkDropListDropped)="drop($event)">
+			<div class="game-entry" *ngFor="let game of sorted; index as i" cdkDrag>
+				<span flex>
       <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
-      <div class="game-rank">{{ i + 1 }}</div>
+      <div class="game-rank">{{ renderRankNumber(i) | number: '2.0' }}</div>
       <div class="game-name">{{ game.name }}</div>
     </span>
+			</div>
+		</div>
 	</div>
-</div>
 
-<h1>Unsorted</h1>
-<div cdkScrollable>
-	<form class="autocomplete-list">
-		<mat-form-field floatLabel="never">
-			<mat-label>Add Game</mat-label>
-			<input [ngModel]="searchBGG" name="searchBGG" type="text" placeholder="" aria-label="Search BGG..." matInput [formControl]="searchTerm" [matAutocomplete]="auto">
-			<mat-autocomplete panelWidth="auto" autoActiveFirstOption #auto="matAutocomplete">
-				<mat-option *ngFor="let result of searchResults " [value]="result.id"
-					(click)="addUnsortedByID(result.id, result.name)"> {{ result.name }}
-					({{ result.year }})</mat-option>
-			</mat-autocomplete>
-		</mat-form-field>
-	</form>
-</div>
-
-<div cdkDropList #unsortedList="cdkDropList" [cdkDropListData]="unsorted" [cdkDropListConnectedTo]="[sortedList]"
-	class="unsorted-list" (cdkDropListDropped)="drop($event)">
-	<div class="game-entry" *ngFor="let game of unsorted" cdkDrag>
-		<span flex>
+	<div>
+		<h1>Unsorted</h1>
+		<div cdkDropList #unsortedList="cdkDropList" [cdkDropListData]="unsorted"
+			[cdkDropListConnectedTo]="[sortedList]" class="unsorted-list" (cdkDropListDropped)="drop($event)">
+			<div class="game-entry" *ngFor="let game of unsorted" cdkDrag>
+				<span flex>
       <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
       <div class="game-entry-delete"><button class="list-button" (click)="removeGame(game.id)"><i class="material-icons">delete</i></button></div>
       <div class="game-name">{{ game.name }}</div>
     </span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="game-list-container">
+	<div>
+		<h1>Search BoardGameGeek</h1>
+		<div cdkScrollable class="searchbgg-list">
+			<form class="autocomplete-list">
+				<mat-form-field floatLabel="never">
+					<mat-label>Add Game</mat-label>
+					<input id="searchBGG" [ngModel]="searchBGG" name="searchBGG" type="text" placeholder="" aria-label="Search BGG..." matInput [formControl]="searchTerm" [matAutocomplete]="auto">
+					<mat-autocomplete panelWidth="auto" autoActiveFirstOption #auto="matAutocomplete">
+						<mat-option *ngFor="let result of searchResults " [value]="result.id"
+							(click)="addUnsortedByID(result.id, result.name)"> {{ result.name }}
+							({{ result.year }})</mat-option>
+					</mat-autocomplete>
+				</mat-form-field>
+			</form>
+		</div>
 	</div>
 </div>

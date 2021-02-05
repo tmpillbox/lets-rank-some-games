@@ -33,6 +33,9 @@ export class TopBarComponent implements OnInit {
   }
 
   rankedGamesCount() {
-    return this.ranked.length;
+    if (this.ranked.length == 1) {
+      return "1 Game Ranked";
+    }
+    return "" + this.ranked.length + " Games Ranked";
   }
 }
