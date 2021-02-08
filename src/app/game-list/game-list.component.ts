@@ -152,13 +152,7 @@ export class GameListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchTerm.valueChanges.subscribe(term => {
-      if (typeof term === "string" && term != "") {
-        this.searchService.search(term).subscribe(data => {
-          this.searchResults = data as any[];
-        });
-      }
-    });
+
   }
 
   drop(event: any): void {

@@ -1,17 +1,35 @@
 <div *ngIf="hasRoute('/')" class="tool-bar">
-	<button class="tool-button fancy-tool-button" (click)="loadSampleData()">
-  <i class="material-icons">dynamic_feed</i>Load Sample Data
-</button>
-	<button class="tool-button fancy-tool-button" (click)="saveToLocal()">
-  <i class="material-icons">file_upload</i>Save Progress
-</button>
-	<button class="tool-button fancy-tool-button" (click)="loadFromLocal()">
-  <i class="material-icons">file_download</i>Load Previous
-</button>
+  <button class="tool-button fancy-tool-button" (click)="loadSampleData()">
+    <i class="material-icons">dynamic_feed</i>Load Sample Data
+  </button>
+  <button class="tool-button fancy-tool-button" (click)="saveToLocal()">
+    <i class="material-icons">file_upload</i>Save Progress
+  </button>
+  <button class="tool-button fancy-tool-button" (click)="loadFromLocal()">
+    <i class="material-icons">file_download</i>Load Previous
+  </button>
 </div>
 
 <div *ngIf="hasRoute('/export')" class="tool-bar">
-	<button class="tool-button fancy-tool-button" (click)="copyToClipboard()">
-  <i class="material-icons">dynamic_feed</i>Copy to Clipboard
+  <button class="tool-button fancy-tool-button" (click)="copyToClipboard()">
+    <i class="material-icons">dynamic_feed</i>Copy to Clipboard
+  </button>
+</div>
+
+<div *ngIf="hasRoute('/bggbyname')" class="tool-bar">
+  <button class="tool-button fancy-tool-button" (click)="bggSearchDoSearch()">
+    <i class="material-icons">search</i>Search
+  </button>
+  <button
+    class="tool-button fancy-tool-button"
+    (click)="bggSearchClearSearch()"
+  >
+    <i class="material-icons">cancel</i>Clear Search
+  </button>
+  <button
+    class="tool-button fancy-tool-button"
+    (click)="bggSearchAddSelected()"
+  >
+    <i class="material-icons">check</i>Add Selected
   </button>
 </div>

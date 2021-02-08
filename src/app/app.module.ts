@@ -21,6 +21,8 @@ import { ToolBarComponent } from "./tool-bar/tool-bar.component";
 import { RankedGamesService } from "./ranked-games.service";
 import { BGGSearchByNameService } from "./bgg-search-by-name.service";
 import { SearchBggNameComponent } from "./search-bgg-name/search-bgg-name.component";
+import { ComponentMessengerService } from './component-messenger.service';
+import { FilterHiddenPipe } from './filter-hidden.pipe';
 
 @NgModule({
   imports: [
@@ -47,10 +49,11 @@ import { SearchBggNameComponent } from "./search-bgg-name/search-bgg-name.compon
     GameListComponent,
     GameExportComponent,
     ToolBarComponent,
-    SearchBggNameComponent
+    SearchBggNameComponent,
+    FilterHiddenPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
-  providers: [RankedGamesService, BGGSearchByNameService]
+  providers: [RankedGamesService, BGGSearchByNameService, ComponentMessengerService]
 })
 export class AppModule {}

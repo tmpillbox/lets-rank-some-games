@@ -1,1 +1,70 @@
-<h1 mat-dialog-title>CSV Export</h1>
+<h1 mat-dialog-title>Search BoardGameGeek</h1>
+<div class="game-list-container">
+  <div>
+    <form class="search-field">
+      <input
+        id="searchBGG"
+        [ngModel]="searchBGG"
+        name="searchBGG"
+        type="text"
+        placeholder="Search BoardGameGeek..."
+        matInput
+        [formControl]="searchTerm"
+        (keydown.enter)="doSearch()"
+      />
+    </form>
+  </div>
+</div>
+<div class="game-list-container">
+  <div class="game-list-container">
+    <div>
+      <h1>Search Results</h1>
+      <div
+        cdkDropList
+        #searchList="cdkDropList"
+        [cdkDropListData]="searchGames"
+        [cdkDropListConnectedTo]="[selectedList]"
+        class="unsorted-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div
+          class="game-entry"
+          *ngFor="let game of searchGames | filterHidden: true "
+          cdkDrag
+        >
+          <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
+          <div class="game-name">{{ game.name }}</div>
+          <div class="game-search-control-button">
+            <button class="list-button" (click)="selectGame(game.id)">
+              <i class="material-icons">keyboard_arrow_right</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h1>Selected</h1>
+      <div
+        cdkDropList
+        #selectedList="cdkDropList"
+        [cdkDropListData]="selectedGames"
+        [cdkDropListConnectedTo]="[searchList]"
+        class="unsorted-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="game-entry" *ngFor="let game of selectedGames" cdkDrag>
+          <span flex>
+            <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
+            <div class="game-entry-control-button">
+              <button class="list-button" (click)="unselectGame(game.id)">
+                <i class="material-icons">keyboard_arrow_left</i>
+              </button>
+            </div>
+            <div class="game-name">{{ game.name }}</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
