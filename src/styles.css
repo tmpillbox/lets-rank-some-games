@@ -92,8 +92,9 @@ button {
   display: inline-flex;
   align-items: center;
   padding: 0 0;
-  background-color: #1976d2;
+  /* background-color: #1976d2; */
   color: white;
+  background-color: unset;
 }
 
 .button:hover,
@@ -177,4 +178,200 @@ fancy-tool-button {
 app-top-bar h1 {
   color: white;
   margin: 0;
+}
+
+.game-list-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+#searchBGG {
+  width: 500px;
+  max-width: 100%;
+  margin: 10px;
+  border: solid 1px #ccc;
+  border-right: solid 3px #ccc;
+  border-bottom: solid 3px #ccc;
+  border-radius: 4px;
+  display: block;
+  min-height: 60px;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+
+.game-list {
+  width: 500px;
+  max-width: 100%;
+  margin: 10px;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+
+.bggsearch-list {
+  width: 500px;
+  max-width: 100%;
+  margin: 10px;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+
+.game-rank {
+  padding: 20px 10px;
+  font-weight: bolder;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+
+  display: flex;
+  flex: 1 1 auto;
+  background: black;
+  color: white;
+  border-radius: 2px;
+}
+
+.game-entry-control-button {
+  padding: 18px 10px;
+  font-weight: bolder;
+  display: inline-flex;
+  /* background: #1976d2; */
+  color: white;
+  /* border-radius: 2px; */
+  background: lightgrey;
+}
+
+.game-entry-control-button-nohover {
+  display: none;
+}
+
+div.game-entry:hover > * > .game-entry-control-button-nohover {
+  display: inline-flex;
+}
+
+.game-search-control-button {
+  padding: 18px 10px;
+  font-weight: bolder;
+  display: inline-flex;
+  /* background: #1976d2; */
+  color: white;
+  /* border-radius: 2px; */
+  align-self: flex-end;
+  align-content: flex-end;
+  background: lightgrey;
+}
+
+.game-entry-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.game-list-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.bggsearch-list {
+  width: 500px;
+  max-width: 100%;
+  margin-top: 10px;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+
+.game-entry {
+  padding: 0px 0px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: white;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+span.game-entry {
+  border-bottom: none;
+}
+
+.game-entry > .in-ranked {
+  background-color: #bcbcbc;
+}
+
+.game-entry > .in-unranked {
+  background-color: #ababab;
+}
+
+.game-entry > .in-selected {
+  background-color: #99ab99;
+}
+
+.game-rank {
+  padding: 20px 10px;
+  font-weight: bolder;
+  display: inline-flex;
+  flex: 1 1 auto;
+  background: black;
+  color: white;
+  border-radius: 2px;
+}
+
+.game-entry-delete {
+  padding: 18px 10px;
+  font-weight: bolder;
+  display: inline-flex;
+  flex: 1 1 auto;
+  background: #1976d2;
+  color: white;
+  border-radius: 2px;
+}
+
+.game-name {
+  padding-left: 10px;
+  font-style: initial;
+  flex: 1 1 auto;
+  padding-top: 35px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+  max-height: 50px;
+  overflow-wrap: anywhere;
+}
+
+.game-entry-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.game-entry-handle {
+  padding: 18px 10px;
+  font-weight: bolder;
+  color: white;
+  cursor: move;
+  background: #ccc;
+  display: flex;
+  flex: 1 1 auto;
 }

@@ -24,7 +24,7 @@
         #searchList="cdkDropList"
         [cdkDropListData]="searchGames"
         [cdkDropListConnectedTo]="[selectedList]"
-        class="unsorted-list"
+        class="game-list"
         (cdkDropListDropped)="drop($event)"
       >
         <div
@@ -33,7 +33,7 @@
           cdkDrag
         >
           <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
-          <div class="game-name">{{ game.name }}</div>
+          <div class="game-name">{{ game.name }} ({{ game.year }})</div>
           <div class="game-search-control-button">
             <button class="list-button" (click)="selectGame(game.id)">
               <i class="material-icons">keyboard_arrow_right</i>
@@ -50,19 +50,17 @@
         #selectedList="cdkDropList"
         [cdkDropListData]="selectedGames"
         [cdkDropListConnectedTo]="[searchList]"
-        class="unsorted-list"
+        class="game-list"
         (cdkDropListDropped)="drop($event)"
       >
         <div class="game-entry" *ngFor="let game of selectedGames" cdkDrag>
-          <span flex>
-            <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
-            <div class="game-entry-control-button">
-              <button class="list-button" (click)="unselectGame(game.id)">
-                <i class="material-icons">keyboard_arrow_left</i>
-              </button>
-            </div>
-            <div class="game-name">{{ game.name }}</div>
-          </span>
+          <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
+          <div class="game-entry-control-button">
+            <button class="list-button" (click)="unselectGame(game.id)">
+              <i class="material-icons">keyboard_arrow_left</i>
+            </button>
+          </div>
+          <div class="game-name">{{ game.name }} ( {{ game.year }} )</div>
         </div>
       </div>
     </div>

@@ -1,7 +1,10 @@
-<div *ngIf="hasRoute('/')" class="tool-bar">
+<div *ngIf="isRoute('/') && hasQueryValue('debug', '1')" class="tool-bar">
   <button class="tool-button fancy-tool-button" (click)="loadSampleData()">
     <i class="material-icons">dynamic_feed</i>Load Sample Data
   </button>
+</div>
+
+<div *ngIf="isRoute('/')" class="tool-bar">
   <button class="tool-button fancy-tool-button" (click)="saveToLocal()">
     <i class="material-icons">file_upload</i>Save Progress
   </button>

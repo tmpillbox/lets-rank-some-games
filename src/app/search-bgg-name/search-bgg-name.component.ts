@@ -9,6 +9,7 @@ import {
 } from "@angular/cdk/drag-drop";
 import { Game } from "../game";
 import { BGGSearchByNameService } from "../bgg-search-by-name.service";
+import { BGGAPISearchByNameService } from "../bggapi-search-by-name.service";
 import { FilterHiddenPipe } from "../filter-hidden.pipe";
 
 @Component({
@@ -25,14 +26,37 @@ export class SearchBggNameComponent implements OnInit {
 
   constructor(
     private rankedGames: RankedGamesService,
-    private searchService: BGGSearchByNameService,
+    // private searchService: BGGSearchByNameService,
+    private searchService: BGGAPISearchByNameService,
     private messengerService: ComponentMessengerService
   ) {}
 
   ngOnInit() {
+    if (localStorage.getItem("BGGSearch_searchBGG") !== null) {
+      this.searchBGG = JSON.parse(localStorage.getItem("BGGSearch_searchBGG"));
+    }
+    if (localStorage.getItem("BGGSearch_searchGames") !== null) {
+      this.searchGames = JSON.parse(
+        localStorage.getItem("BGGSearch_searchGames")
+      ).map(game => {
+        var robj = new Game(game.id, game.name, game.year);
+        if (game.hidden === true) {
+          robj.hide();
+        }
+        return robj;
+      });
+    }
+    if (localStorage.getItem("BGGSearch_selectedGames") !== null) {
+      this.selectedGames = JSON.parse(
+        localStorage.getItem("BGGSearch_selectedGames")
+      ).map(game => {
+        return new Game(game.id, game.name, game.year);
+      });
+    }
     this.searchTerm.valueChanges.subscribe(term => {
       if (typeof term === "string" && term != "") {
         this.searchBGG = term;
+        this.updateSearchAndSelect();
       }
     });
     this.messengerService.bggSearchAddSelected.subscribe(data => {
@@ -46,6 +70,18 @@ export class SearchBggNameComponent implements OnInit {
     });
   }
 
+  updateSearchAndSelect() {
+    localStorage.setItem(
+      "BGGSearch_searchGames",
+      JSON.stringify(this.searchGames)
+    );
+    localStorage.setItem(
+      "BGGSearch_selectedGames",
+      JSON.stringify(this.selectedGames)
+    );
+    localStorage.setItem("BGGSearch_searchBGG", JSON.stringify(this.searchBGG));
+  }
+
   doSearch() {
     if (typeof this.searchBGG === "string" && this.searchBGG !== "") {
       this.searchService.search(this.searchBGG).subscribe(data => {
@@ -53,6 +89,7 @@ export class SearchBggNameComponent implements OnInit {
         data.forEach(result => {
           this.searchGames.push(new Game(result.id, result.name, result.year));
         });
+        this.updateSearchAndSelect();
       });
     }
   }
@@ -60,11 +97,13 @@ export class SearchBggNameComponent implements OnInit {
   clearSearch() {
     this.searchBGG = "";
     this.searchGames = [];
+    this.updateSearchAndSelect();
   }
 
   addSelected() {
     this.rankedGames.addUnsorted(this.selectedGames);
     this.selectedGames = [];
+    this.updateSearchAndSelect();
   }
 
   drop(event: any): void {
@@ -92,6 +131,7 @@ export class SearchBggNameComponent implements OnInit {
         );
       }
     }
+    this.updateSearchAndSelect();
   }
 
   copyAndHide(hideContainer, hideIndex, copyContainer, copyIndex) {
@@ -102,28 +142,43 @@ export class SearchBggNameComponent implements OnInit {
   }
 
   removeSelectAndUnHideIdx(selectedIndex) {
-    var gid = this.selectedGames[selectedIndex].id;
+    var game = this.selectedGames[selectedIndex];
+    var gid = game.id;
     this.selectedGames.splice(selectedIndex, 1);
+    var found = false;
     this.searchGames.forEach(function(game) {
       if (game.id === gid) {
         game.unhide();
+        found = true;
       }
     });
+    // GameID was not found
+    if (!found) {
+      this.searchGames.push(game);
+    }
   }
 
   unselectGame(gameid) {
     var idx: number;
+    var gobj = undefined;
     this.selectedGames.forEach((game, gameindex) => {
       if (game.id === gameid) {
         idx = gameindex;
+        gobj = game;
       }
     });
+    var found = false;
     this.selectedGames.splice(idx, 1);
     this.searchGames.forEach(game => {
       if (game.id === gameid) {
         game.unhide();
+        found = true;
       }
     });
+    if (!found) {
+      this.searchGames.push(gobj);
+    }
+    this.updateSearchAndSelect();
   }
 
   selectGame(gameid) {
@@ -138,5 +193,6 @@ export class SearchBggNameComponent implements OnInit {
         game.hide();
       }
     });
+    this.updateSearchAndSelect();
   }
 }

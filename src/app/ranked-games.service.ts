@@ -35,14 +35,14 @@ export class RankedGamesService implements OnInit {
     }
   }
 
-  setRanks(games) {
+  setRanks(games: Game[]) {
     this.games = games;
     localStorage.setItem("rankedGames", JSON.stringify(this.games));
     this.rankedGamesCount = this.games.length;
     this.updateRanksSource.next(this.games);
   }
 
-  setUnsorted(games) {
+  setUnsorted(games: Game[]) {
     this.unsorted = games;
     localStorage.setItem("unrankedGames", JSON.stringify(this.unsorted));
     this.unrankedGamesCount = this.unsorted.length;

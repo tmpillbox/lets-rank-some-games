@@ -4,6 +4,7 @@ import { debounceTime } from "rxjs/internal/operators/debounceTime";
 import { map, catchError } from "rxjs/operators";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/empty";
+import { Game } from "./game";
 
 @Injectable({ providedIn: "root" })
 export class BGGSearchByNameService {
@@ -34,6 +35,11 @@ export class BGGSearchByNameService {
               imgid: "" + itemHandle["rep_imageid"]
             };
             return robj;
+            //var robj = new Game(
+            //  itemHandle["id"],
+            //  itemHandle["name"],
+            //  itemHandle["year"]
+            //);
           });
         })
       );

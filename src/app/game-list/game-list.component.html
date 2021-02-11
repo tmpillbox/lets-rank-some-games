@@ -1,6 +1,6 @@
 <div class="game-list-container">
   <div>
-    <h1>Sorted</h1>
+    <h1>Ranked</h1>
     <div
       cdkDropList
       #sortedList="cdkDropList"
@@ -10,27 +10,56 @@
       (cdkDropListDropped)="drop($event)"
     >
       <div class="game-entry" *ngFor="let game of sorted; index as i" cdkDrag>
-        <span flex>
+        <span class="game-entry">
           <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
           <div class="game-rank">{{ renderRankNumber(i) | number: '2.0' }}</div>
           <div class="game-name">{{ game.name }}</div>
+        </span>
+        <span class="game-entry">
+          <div
+            class="game-entry-control-button game-entry-control-button-nohover"
+          >
+            <button class="list-button" (click)="moveUp(sorted, game.id)">
+              <i class="material-icons">keyboard_arrow_up</i>
+            </button>
+          </div>
+          <div
+            class="game-entry-control-button game-entry-control-button-nohover"
+          >
+            <button class="list-button" (click)="moveDown(sorted, game.id)">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </button>
+          </div>
+          <div
+            class="game-entry-control-button game-entry-control-button-nohover"
+          >
+            <button
+              class="list-button"
+              (click)="moveRight(sorted, game.id, unsorted)"
+            >
+              <i class="material-icons">keyboard_arrow_right</i>
+            </button>
+          </div>
+          <div class="game-entry-handle" cdkDragHandle>
+            <i class="material-icons">drag_handle</i>
+          </div>
         </span>
       </div>
     </div>
   </div>
 
   <div>
-    <h1>Unsorted</h1>
+    <h1>Unranked</h1>
     <div
       cdkDropList
       #unsortedList="cdkDropList"
       [cdkDropListData]="unsorted"
       [cdkDropListConnectedTo]="[sortedList]"
-      class="unsorted-list"
+      class="game-list"
       (cdkDropListDropped)="drop($event)"
     >
       <div class="game-entry" *ngFor="let game of unsorted" cdkDrag>
-        <span flex>
+        <span class="game-entry">
           <div class="game-entry-placeholder" *cdkDragPlaceholder></div>
           <div class="game-entry-delete">
             <button class="list-button" (click)="removeGame(game.id)">
@@ -38,6 +67,35 @@
             </button>
           </div>
           <div class="game-name">{{ game.name }}</div>
+        </span>
+        <span class="game-entry">
+          <div
+            class="game-entry-control-button game-entry-control-button-nohover"
+          >
+            <button
+              class="list-button"
+              (click)="moveLeft(unsorted, game.id, sorted)"
+            >
+              <i class="material-icons">keyboard_arrow_left</i>
+            </button>
+          </div>
+          <div
+            class="game-entry-control-button game-entry-control-button-nohover"
+          >
+            <button class="list-button" (click)="moveUp(unsorted, game.id)">
+              <i class="material-icons">keyboard_arrow_up</i>
+            </button>
+          </div>
+          <div
+            class="game-entry-control-button game-entry-control-button-nohover"
+          >
+            <button class="list-button" (click)="moveDown(unsorted, game.id)">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </button>
+          </div>
+          <div class="game-entry-handle" cdkDragHandle>
+            <i class="material-icons">drag_handle</i>
+          </div>
         </span>
       </div>
     </div>

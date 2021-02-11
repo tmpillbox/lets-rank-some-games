@@ -18,7 +18,22 @@ export class ToolBarComponent implements OnInit {
   ngOnInit() {}
 
   hasRoute(route: string) {
+    return this.router.url.includes(route);
+  }
+
+  isRoute(route: string) {
     return this.router.url === route;
+  }
+
+  hasQuery(query: string) {
+    return this.router.parseUrl(this.router.url).queryParamMap.has(query);
+  }
+
+  hasQueryValue(param: string, value: any) {
+    return (
+      this.router.parseUrl(this.router.url).queryParamMap.has(param) &&
+      this.router.parseUrl(this.router.url).queryParamMap.get(param) == value
+    );
   }
 
   loadSampleData() {

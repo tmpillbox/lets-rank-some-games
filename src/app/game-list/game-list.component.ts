@@ -151,9 +151,7 @@ export class GameListComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   drop(event: any): void {
     if (event.previousContainer === event.container) {
@@ -192,5 +190,69 @@ export class GameListComponent implements OnInit {
 
   renderRankNumber(i) {
     return i + 1;
+  }
+
+  moveUp(list: Game[], gameid: number) {
+    var gIndex = -1;
+    var game = undefined;
+    list.forEach((g, i) => {
+      if (g.id === gameid) {
+        gIndex = i;
+        game = g;
+      }
+    });
+    if (gIndex === 0 || gIndex == -1) {
+      return;
+    }
+    list.splice(gIndex, 1);
+    list.splice(gIndex - 1, 0, game);
+  }
+
+  moveDown(list: Game[], gameid: number) {
+    var gIndex = -1;
+    var game = undefined;
+    list.forEach((g, i) => {
+      if (g.id === gameid) {
+        gIndex = i;
+        game = g;
+      }
+    });
+    if (gIndex === -1) {
+      return;
+    }
+    list.splice(gIndex, 1);
+    list.splice(gIndex + 1, 0, game);
+  }
+
+  moveRight(fromList: Game[], gameid: number, toList: Game[]) {
+    var gIndex = -1;
+    var game = undefined;
+    fromList.forEach((g, i) => {
+      if (g.id === gameid) {
+        gIndex = i;
+        game = g;
+      }
+    });
+    if (gIndex === -1) {
+      return;
+    }
+    fromList.splice(gIndex, 1);
+    toList.push(game);
+  }
+
+  moveLeft(fromList: Game[], gameid: number, toList: Game[]) {
+    var gIndex = -1;
+    var game = undefined;
+    fromList.forEach((g, i) => {
+      if (g.id === gameid) {
+        gIndex = i;
+        game = g;
+      }
+    });
+    if (gIndex === -1) {
+      return;
+    }
+    fromList.splice(gIndex, 1);
+    toList.push(game);
   }
 }

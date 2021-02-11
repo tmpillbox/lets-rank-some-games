@@ -21,8 +21,11 @@ import { ToolBarComponent } from "./tool-bar/tool-bar.component";
 import { RankedGamesService } from "./ranked-games.service";
 import { BGGSearchByNameService } from "./bgg-search-by-name.service";
 import { SearchBggNameComponent } from "./search-bgg-name/search-bgg-name.component";
-import { ComponentMessengerService } from './component-messenger.service';
-import { FilterHiddenPipe } from './filter-hidden.pipe';
+import { ComponentMessengerService } from "./component-messenger.service";
+import { FilterHiddenPipe } from "./filter-hidden.pipe";
+import { SortByRelevancePipe } from "./sort-by-relevance.pipe";
+import { BGGAPISearchByNameService } from "./bggapi-search-by-name.service";
+import { GameDatabaseService } from './game-database.service';
 
 @NgModule({
   imports: [
@@ -50,10 +53,17 @@ import { FilterHiddenPipe } from './filter-hidden.pipe';
     GameExportComponent,
     ToolBarComponent,
     SearchBggNameComponent,
-    FilterHiddenPipe
+    FilterHiddenPipe,
+    SortByRelevancePipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
-  providers: [RankedGamesService, BGGSearchByNameService, ComponentMessengerService]
+  providers: [
+    RankedGamesService,
+    BGGSearchByNameService,
+    ComponentMessengerService,
+    BGGAPISearchByNameService,
+    GameDatabaseService
+  ]
 })
 export class AppModule {}
